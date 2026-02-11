@@ -54,19 +54,47 @@
 // }
 // console.table(redButton)
 
-const buttonInfo = {
-    text: 'Buy'
-}
+// const buttonInfo = {
+//     text: 'Buy'
+// }
+//
+// const buttonStyle = {
+//     color: 'yellow',
+//     width: 200,
+//     height: 300
+// }
+//
+// const button = {
+//     ...buttonInfo,
+//     ...buttonStyle
+// }
+//
+// console.table(button)
 
-const buttonStyle = {
-    color: 'yellow',
-    width: 200,
-    height: 300
-}
+//12
+//
+// setTimeout(function (){
+//     console.log('KJFnjfnfdnf')
+// }, 1000)
+//
+// setTimeout(() =>{
+//     console.log('KJFnjfnfdnf')
+// }, 1000)
 
-const button = {
-    ...buttonInfo,
-    ...buttonStyle
-}
+// function multByFactor(value, multiplier = 1) {
+//     return value * multiplier
+// }
+//
+// console.log(multByFactor(10, 2));
+// console.log(multByFactor(10));
 
-console.table(button)
+const newPost = (post, addedAt = Date()) => ({
+    ...post,
+    addedAt
+})
+
+const firstPost = {
+    id: 1,
+    author: 'Bogdan'
+}
+console.log(newPost(firstPost))
