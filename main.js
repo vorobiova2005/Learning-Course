@@ -88,13 +88,28 @@
 // console.log(multByFactor(10, 2));
 // console.log(multByFactor(10));
 
-const newPost = (post, addedAt = Date()) => ({
-    ...post,
-    addedAt
-})
+// const newPost = (post, addedAt = Date()) => ({
+//     ...post,
+//     addedAt
+// })
+//
+// const firstPost = {
+//     id: 1,
+//     author: 'Bogdan'
+// }
+// console.log(newPost(firstPost))
 
-const firstPost = {
-    id: 1,
-    author: 'Bogdan'
+//13
+console.log("continue...")
+const fnWithError = () => {
+    throw new Error('Some error')
 }
-console.log(newPost(firstPost))
+try {
+    fnWithError()
+} catch (error){
+    console.error(error)
+    console.log(error.message)
+}
+console.log("continue...")
+
+
