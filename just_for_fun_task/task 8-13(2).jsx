@@ -53,7 +53,7 @@ const systemConfig = {
     version: "2.1.0" };
 
 // Спробуй видалити лапку в кінці, щоб спрацював catch
-const incomingData = '{"userName": "Neo", "failedAttempts": 3, "isBlacklisted": false, "status": "Blocked"}';
+const incomingData = '{"userName": "Neo", "failedAttempts": 0, "isBlacklisted": false, "status": "Active"}';
 
 let regionMultiplier = 1.2;
 let baseRisk = 20;
@@ -73,7 +73,8 @@ try {
     guestData = {
         status: 'anonymous',
         ipAddress: '0.0.0.0',
-        accessLevel: 0
+        accessLevel: 0,
+        failedAttempts: 0
     }
 }
 //console.log(guestData);
@@ -100,7 +101,7 @@ guestData.failedAttempts = attempts;
 //3
 
 const isAccessDenied = () => {
-    if (totalRiskScore > 50 || guestData.userName === '' || !guestData.isBlacklisted){
+    if (totalRiskScore > 50 || guestData.userName === '' || guestData.isBlacklisted){
         return true
     } else {
         return false
@@ -119,11 +120,9 @@ if (!dataError){
 
 //5 Фінал
 
-if (!isAccessDenied()) {
+if (isAccessDenied()) {
     console.log('В доступі відмовлено');
 } else {
     console.log(`Вітаю вас ${guestData.userName}`)
 }
 
-
-//Блять, щось накрутила тут дохріна всього, ще треба буде перевірити, а то вийшла хуйня якась.
