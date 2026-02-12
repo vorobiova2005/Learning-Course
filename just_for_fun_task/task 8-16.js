@@ -10,7 +10,10 @@ const rawOrders = [
 const shopInfo = {
     name: "TechStore",
     currency: "USD",
-    location: { city: "Cherkasy", country: "Ukraine" }
+    location: {
+        city: "Cherkasy",
+        country: "Ukraine"
+    }
 };
 
 //Крок 1: Деструктуризація налаштувань (Секція 16)
