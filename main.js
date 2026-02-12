@@ -131,36 +131,70 @@
 // const myArray2 = new Array(1, 2, 3)
 // console.log(myArray2)
 
-const meArray = [1, true, 'a']
+// const meArray = [1, true, 'a']
+//
+// console.log(meArray)
+// console.log(meArray[0])
+// console.log(meArray[1])
+//
+// console.log(meArray.length)
+//
+// meArray[2] = 'abc'
+// console.log(meArray)
+// meArray[3] = false
+// console.log(meArray)
+//
+// meArray.push('hbhb')
+// console.log(meArray)
+//
+// meArray.pop()
+// console.log(meArray)
+//
+// meArray.unshift('jhbhjbhj')
+// console.log(meArray)
+//
+// meArray.shift()
+// console.log(meArray)
+//
+//
+// meArray.forEach(el => console.log(el * 2))
+//
+// console.log(meArray)
+//
+// const newArray = meArray.map(el => el * 3)
+// console.log(newArray)
+// console.log(meArray)
 
-console.log(meArray)
-console.log(meArray[0])
-console.log(meArray[1])
+//16
+// const userProfile = {
+//     name: 'Bogdan',
+//     commentsQty: 23,
+//     hasSignedAgreement: false
+// }
+//
+// const {name, commentsQty} = userProfile
+// const {hasSignedAgreement} = userProfile
+//
+// console.log(name)
+// console.log(commentsQty)
 
-console.log(meArray.length)
+// const fruits = ['Apple', 'Banana']
+// const [firstFruit, secondFruit] = fruits
+//
+// console.log(firstFruit)
+// console.log(secondFruit)
 
-meArray[2] = 'abc'
-console.log(meArray)
-meArray[3] = false
-console.log(meArray)
+const userProfile = {
+    name: 'Bogdan',
+    commentsQty: 23,
+    hasSignedAgreement: false
+}
 
-meArray.push('hbhb')
-console.log(meArray)
-
-meArray.pop()
-console.log(meArray)
-
-meArray.unshift('jhbhjbhj')
-console.log(meArray)
-
-meArray.shift()
-console.log(meArray)
-
-
-meArray.forEach(el => console.log(el * 2))
-
-console.log(meArray)
-
-const newArray = meArray.map(el => el * 3)
-console.log(newArray)
-console.log(meArray)
+const userInfo = ({name, commentsQty}) => {
+    if (!commentsQty) {
+        return `User ${name} has no comments`
+    }
+    return `User ${name} has ${commentsQty} comments`
+}
+userInfo(userProfile)
+console.log(userInfo(userProfile))
