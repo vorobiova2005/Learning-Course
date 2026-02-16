@@ -3,10 +3,10 @@
 // Тепер твоя мета — перевірити станцію на придатність до життя та підготувати звіт для Землі.
 
 const stationModules = [
-    { name: "Life Support", status: "active", oxygenLevel: 95, integrity: 0.9 },
-    { name: "Navigation", status: "active", oxygenLevel: 80, integrity: 1.0 },
-    { name: "Communication", status: "warning", oxygenLevel: 40, integrity: 0.7 },
-    { name: "Research Lab", status: "standby", oxygenLevel: 85, integrity: 0.85 }
+    {name: "Life Support", status: "active", oxygenLevel: 95, integrity: 0.9},
+    {name: "Navigation", status: "active", oxygenLevel: 80, integrity: 1.0},
+    {name: "Communication", status: "warning", oxygenLevel: 40, integrity: 0.7},
+    {name: "Research Lab", status: "standby", oxygenLevel: 85, integrity: 0.85}
 ];
 
 const stationSpecs = {
@@ -26,7 +26,7 @@ const stationSpecs = {
 // Першого інженера зі списку engineers (використовуй деструктуризацію масиву всередині об'єкта).
 // Виведи в консоль: "Станція: [ID]. Командир: [commander]. Головний інженер: [engineer]".
 
-const {stationId, crew:{commander, engineers: [firstEngineers]}} = stationSpecs
+const {stationId, crew: {commander, engineers: [firstEngineers]}} = stationSpecs
 
 console.log(`Станція: ${stationId}. Командир: ${commander}. Головний інженер: ${firstEngineers}`)
 
@@ -35,13 +35,16 @@ console.log(`Станція: ${stationId}. Командир: ${commander}. Го�
 // Створи новий масив updatedScientists, який включає всіх старих вчених + нову "Tali" (використовуй spread оператор ...).
 // Знайди в масиві stationModules модуль, у якого статус — "warning" (використовуй метод .find()). Виведи його назву.
 
-const newScientists = ['Tali']
+const newScientists = ['Tali', 'Genre']
 
-const updatedScientists = [
-    ...stationSpecs.crew.scientists,
-    ...newScientists
-]
-// console.log(updatedScientists)
+const updatedStationSpecs = {
+    ...stationSpecs,
+    crew: {
+        ...stationSpecs.crew,
+        scientists: [...stationSpecs.crew.scientists, ...newScientists]
+    }
+}
+console.log(updatedStationSpecs)
 
 const stationModulesBrok = stationModules.find(modstat => modstat.status === 'warning')
 
@@ -90,7 +93,26 @@ const commModule = stationModules.find(module => module.name === 'Communication'
 
 try {
     checkSecurity(commModule)
-} catch(error){
+} catch (error) {
     console.log(`УВАГА! Модуль ${commModule.name} потребує ремонту!`)
 }
 
+const editionPartForCommander = " Sheron"
+const newEngineers = ["Jack", "Tom"]
+const newCoordinates = [15.38]
+
+const updatedStationSpecs2 = {
+    ...stationSpecs,
+    crew:{
+        ...stationSpecs.crew,
+        commander: stationSpecs.crew.commander + editionPartForCommander,
+        engineers: [...stationSpecs.crew.engineers, ...newEngineers]
+    },
+    coordinates: [...stationSpecs.coordinates, ...newCoordinates]
+}
+
+console.log(updatedStationSpecs2)
+
+const [, {name}, {oxygenLevel}, {status}] = stationModules
+
+console.log(name, oxygenLevel, status)
