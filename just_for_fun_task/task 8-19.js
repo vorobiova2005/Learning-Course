@@ -121,9 +121,14 @@ for (const item of itemNames){
 
 let random;
 
-do {
-    random = Math.floor(Math.random() * 11);
-    if (random !== 10){
-        console.log(`Монстр атакує! Випавше число ${random}`)
-    }
-} while (random !== 10);
+try {
+    do {
+        random = Math.floor(Math.random() * 11);
+        if (random !== 10) {
+            console.log(`Монстр атакує! Випавше число ${random}`)
+        }
+    } while (random !== 10);
+} catch (error) {
+    console.log("Помилка генерації події");
+}
+
