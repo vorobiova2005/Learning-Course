@@ -9,9 +9,19 @@
 let myVariable1 = 10
 let myVariable2 = '5'
 
-// Напишите код здесь
+if (myVariable1 <= myVariable2){
+    console.log(true)
+} else {
+    console.log(false)
+}
 
 myVariable1 = '20'
 myVariable2 = 100
 
-// Напишите код здесь
+
+
+if (+myVariable1 <= myVariable2){
+    console.log(true)
+} else {
+    console.log(false)
+}

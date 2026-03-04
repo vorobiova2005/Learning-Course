@@ -8,3 +8,11 @@
  *
  * 4. Выведите в консоль измененный массив
  */
+
+const myArr = [1, 'Den', true]
+
+console.log(myArr)
+
+myArr[1] = 'Tina'
+
+console.log(myArr)

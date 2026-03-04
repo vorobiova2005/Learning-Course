@@ -6,8 +6,8 @@
  * 2. Нужно ли как-то исправить этот код?
  */
 
-setTimeout(function myFn() {
+setTimeout(() => {
   console.log('Привет из функции myFn')
 }, 2000)
 
-myFn()
+

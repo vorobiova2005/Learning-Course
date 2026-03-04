@@ -12,3 +12,15 @@
  * "Сообщение номер 4"
  * "Сообщение номер 5"
  */
+
+let num = 1;
+
+const numOfMes = setInterval(() => {
+    console.log(`Повідомлення ${num}`);
+    if (num === 5){
+        clearInterval(numOfMes);
+    }
+
+    num++
+}, 2000)
+
