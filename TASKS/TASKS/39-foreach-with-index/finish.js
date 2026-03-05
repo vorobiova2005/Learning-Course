@@ -1,6 +1,6 @@
 /** ЗАДАЧА 39 - Перебор элементов массива
  *
- * 1. Создайте функцию "cityInfo" с двумя параметрами,
+ * 1. Создайте функцию "" с двумя параметрами,
  * которая возвращает строку
  * "London is at the index 0 in the myCities array"
  *
@@ -10,3 +10,13 @@
  */
 
 const myCities = ['London', 'New York', 'Singapore']
+
+
+const cityInfo = (city, index) => {
+    return `${city} is at the index ${index} in the myCities array`
+}
+
+myCities.forEach((city, index) => {
+    console.log(cityInfo(city, index))
+})
+

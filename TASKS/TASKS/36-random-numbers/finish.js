@@ -18,3 +18,24 @@ const MIN = 1000
 const MAX = 9999
 
 const myNumbers = [2355, 7235, 8135, 1762, 2361, 8351]
+
+function getRandomNumber(){
+    return Math.floor(Math.random() * (MAX - MIN + 1)) + MIN;
+
+}
+
+
+function addNewNumber(array, min, max) {
+    let randomNum = getRandomNumber(min, max);
+
+    while (array.includes(randomNum)) {
+        randomNum = getRandomNumber(min, max);
+    }
+
+    array.push(randomNum);
+    return array;
+}
+
+const updatedNumbers = addNewNumber(myNumbers, MIN, MAX);
+console.log(updatedNumbers);
+
