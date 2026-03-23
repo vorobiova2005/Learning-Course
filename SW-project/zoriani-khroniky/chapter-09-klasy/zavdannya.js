@@ -74,23 +74,32 @@
 
 class Warrior {
   constructor(name, hp) {
-    ???
-  }
+    this.name = name
+    this.hp = hp
+    this.maxHp = hp
+    }
+
+    get isAlive() {
+      return this.hp > 0;
+    }
+
 
   getStatus() {
-    ???
+    return `${this.name} : HP ${this.hp}/${this.maxHp}`
   }
 
   takeDamage(dmg) {
-    ???
+    this.hp -= dmg
+    if (this.hp < 0) {this.hp = 0}
   }
 
   heal(amount) {
-    ???
+    this.hp += amount
+    if (this.hp > this.maxHp) {this.hp = this.maxHp}
   }
 
   static create(name) {
-    ???
+    return new Warrior(name, 100);
   }
 }
 
@@ -115,16 +124,25 @@ class Warrior {
 
 class Jedi extends Warrior {
   constructor(name, hp, power) {
-    super(???);   // передай name і hp у батьківський constructor
-    ???
+    super(name, hp);
+    this.power = power
+  }
+  get rank() {
+    if (this.power >= 80){
+      return "Майстер"
+    } else if(this.power >= 50){
+      return "Лицар"
+    } else{
+      return "Падаван"
+    }
   }
 
   forceAttack() {
-    ???
+    return `${this.name} використовує Силу! Шкода: ${this.power}`
   }
 
   getStatus() {
-    ???
+    return `${this.rank} ${this.name}  HP ${this.hp}/${this.maxHp}, Сила: ${this.power}`
   }
 }
 
@@ -147,16 +165,17 @@ class Jedi extends Warrior {
 
 class Sith extends Warrior {
   constructor(name, hp, darkPower, title = 'Дарт') {
-    super(???);
-    ???
+    super(name, hp)
+    this.darkPower = darkPower
+    this.title = title
   }
 
   darkForceAttack() {
-    ???
+    return `${this.title} ${this.name} обертає Темну Силу! Шкода: ${Math.floor(this.darkPower * 1.5)}`
   }
 
   getStatus() {
-    ???
+    return `${this.title} ${this.name}: HP ${this.hp}/${this.maxHp}, Темна Сила: ${this.darkPower}`
   }
 }
 
@@ -185,15 +204,30 @@ class Sith extends Warrior {
 
 class Arena {
   constructor(fighter1, fighter2) {
-    ???
+    this.fighter1 = fighter1
+    this.fighter2 = fighter2
+    this.round = 0
   }
 
   fight() {
-    ???
+    this.round ++
+    this.fighter1.takeDamage(15)
+    this.fighter2.takeDamage(20)
+    return {
+      round: this.round,
+      f1Status: this.fighter1.getStatus(),
+      f2Status: this.fighter2.getStatus()
+    }
   }
 
   getWinner() {
-    ???
+    if (this.fighter1.isAlive && !this.fighter2.isAlive) {
+      return this.fighter1.name
+    } else if (this.fighter2.isAlive && !this.fighter1.isAlive){
+      return this.fighter2.name
+    }else{
+      return null
+    }
   }
 }
 

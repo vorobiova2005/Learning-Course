@@ -62,7 +62,12 @@
 */
 
 const jedi = {
-  ???
+  name: 'Tina',
+  rank: 'Майстер',
+  planet: 'Naboo',
+  forcePower: 100,
+  weapons: ['Lightsaber', 'blaster'],
+  isAlive: true
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -84,15 +89,15 @@ const warrior = {
   forcePower: 75,
 
   present() {
-    return ???;
+    return `Я ${this.name}, ${this.rank} з планети ${this.planet}`;
   },
 
   attack() {
-    return ???;
+    return `Атакую з силою ${this.forcePower}!`;
   },
 
   isStrong() {
-    return ???;
+      return this.forcePower >= 50;
   },
 };
 
@@ -111,16 +116,16 @@ const warrior = {
 */
 
 const starship = {
-  name: ???,
-  speed: ???,
-  weapons: ???,
+  name: "Millennium Falcon",
+  speed: 1050,
+  weapons: ["Laser Cannons", "Concussion Missiles"],
   pilot: {
-    name: ???,
-    rank: ???,
+    name: "Луна",
+    rank: "Лицар",
   },
   status: {
-    hull: ???,
-    shields: ???,
+    hull: 90,
+    shields: 75,
   },
 };
 
@@ -132,15 +137,15 @@ const starship = {
 */
 
 function kluchi(obj) {
-  return ???;   // Object.keys(obj)
+  return Object.keys(obj);
 }
 
 function znachennia(obj) {
-  return ???;   // Object.values(obj)
+  return Object.values(obj);
 }
 
 function pary(obj) {
-  return ???;   // Object.entries(obj)
+  return Object.entries(obj);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -154,7 +159,10 @@ function pary(obj) {
 */
 
 function zlytyObyekty(obj1, obj2) {
-  return ???;
+  return {
+    ...obj1,
+    ...obj2
+  };
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -177,8 +185,20 @@ function zlytyObyekty(obj1, obj2) {
 */
 
 function stvorytyCDzhedaia(name, planet, power) {
+  let rank;
+  if (power >= 80) {
+    rank = "Майстер";
+  } else if (power >= 50) {
+    rank = "Лицар";
+  } else {
+    rank = "Падаван";
+  }
   return {
-    ???
+    name: name,
+    planet: planet,
+    power: power,
+    rank: rank,
+    greet(){ return `Привіт від ${this.name} з ${this.planet}!`}
   };
 }
 
@@ -199,7 +219,9 @@ function stvorytyCDzhedaia(name, planet, power) {
 function stvorytyReiestr(jediArray) {
   const registry = {};
   // Перебери масив і заповни registry:
-  ???
+  for (const jedi of jediArray){
+    registry[jedi.name] = jedi;
+  }
 
   return registry;
 }

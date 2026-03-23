@@ -1,6 +1,6 @@
 /** ЗАДАЧА 60 - Модифицированный метод push для массивов
  *
- * 1. Создайте новый класс "CustomArray", который должен расширять встроенный "Array"
+ * extends Array
  *
  * 2. Добавьте один пользовательский метод "customPush" в новый класс.
  * Этот метод будет иметь один параметр "newElement".
@@ -19,3 +19,16 @@
  * в классе "CustomArray" также будет "push" вместо "customPush"?
  * Попробуйте это.
  */
+
+class CustomArray extends Array{
+    customPush(newElement){
+        this[this.length] = newElement
+        this.length = this.length + 1
+        console.log(`Новый элемент ${newElement} был только что добавлен в массив`)
+    }
+}
+
+
+const numbers = new CustomArray(1, 2, 3, 4, 5);
+numbers.customPush(6);
+console.log(numbers);

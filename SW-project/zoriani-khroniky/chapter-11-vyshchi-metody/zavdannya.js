@@ -60,10 +60,10 @@ const fleet = [
   Отримай масив ТІЛЬКИ імен кораблів.
   Використай .map()
 */
-
 function imenaKorabliv(ships) {
-  return ships.map(???);
+  return ships.map(ship => ship.name);
 }
+
 
 // ═══════════════════════════════════════════════════════════
 // 🎯 ЗАВДАННЯ 11.2 — MAP: АПГРЕЙД ФЛОТУ
@@ -77,7 +77,7 @@ function imenaKorabliv(ships) {
 function aphreidFlotu(ships) {
   return ships.map(ship => ({
     ...ship,
-    power: ???,
+    power: Math.round(ship.power * 1.1)
   }));
 }
 
@@ -89,7 +89,7 @@ function aphreidFlotu(ships) {
 */
 
 function tilkyVynyschuvachy(ships) {
-  return ships.filter(???);
+  return ships.filter(ship => ship.type === "fighter");
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -102,7 +102,7 @@ function tilkyVynyschuvachy(ships) {
 */
 
 function boiezdatniKorabli(ships, minPower, minFuel) {
-  return ships.filter(???);
+  return ships.filter(ship => ship.power >= minPower && ship.fuel >=minFuel);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -114,7 +114,7 @@ function boiezdatniKorabli(ships, minPower, minFuel) {
 */
 
 function zahalnaPotuzhtnist(ships) {
-  return ships.reduce(???, 0);
+  return ships.reduce((acc, ship) => acc + ship.power, 0);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -125,7 +125,7 @@ function zahalnaPotuzhtnist(ships) {
 */
 
 function znaidyKorabl(ships, name) {
-  return ships.find(???) ?? null;
+  return ships.find(ship => ship.name === name) ?? null;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -137,11 +137,11 @@ function znaidyKorabl(ships, name) {
 */
 
 function chyVsiHotovi(ships) {
-  return ships.every(???);
+  return ships.every(ship => ship.fuel >= 50);
 }
 
 function chyKhtosMaie(ships) {
-  return ships.some(???);
+  return ships.some(ship => ship.power >= 90);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -153,7 +153,7 @@ function chyKhtosMaie(ships) {
 */
 
 function reitynh(ships) {
-  return [...ships].sort(???);
+  return [...ships].sort((a, b) => b.power - a.power);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -173,10 +173,10 @@ function reitynh(ships) {
 
 function topVynyschuvachy(ships) {
   return ships
-    .filter(???)
-    .filter(???)
-    .sort(???)
-    .map(???);
+    .filter(ship => ship.type === "fighter")
+    .filter(ship => ship.power >= 70)
+    .sort((a, b) => b.power - a.power)
+    .map(ship => `${ship.name} (${ship.power})`);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -191,7 +191,11 @@ function topVynyschuvachy(ships) {
 
 function hrubovannia(ships) {
   return ships.reduce((groups, ship) => {
-    ???
+    if (!groups[ship.type]) {
+      groups[ship.type] = [];
+    }
+    groups[ship.type].push(ship);
+    return groups;
   }, {});
 }
 

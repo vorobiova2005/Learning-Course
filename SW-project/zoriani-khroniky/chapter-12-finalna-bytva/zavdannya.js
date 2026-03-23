@@ -50,23 +50,44 @@ const viruses = [
 // ЗАВДАННЯ 12.1: Знайди всі АКТИВНІ віруси (active: true)
 function aktyvniViruses(viruses) {
   // TODO: використай filter
+  return viruses.filter(virus => virus.active === true)
 }
 
 // ЗАВДАННЯ 12.2: Знайди НАЙНЕБЕЗПЕЧНІШИЙ активний вірус (з максимальним power)
 function naynebezpechniishyi(viruses) {
   // TODO: filter активних, потім знайди з максимальним power
+  const active = viruses.filter(virus => virus.active);
+  return active.reduce((acc, virus) => {
+    if (virus.power > acc.power) {
+      return virus;
+    } else {
+      return acc;
+    }
+  })
 }
 
 // ЗАВДАННЯ 12.3: Загальна сила АКТИВНИХ вірусів
 function zahalnaSelaVorohiv(viruses) {
   // TODO: filter + reduce
+  const active = viruses.filter(virus => virus.active);
+  return active.reduce((acc, virus) => acc + virus.power, 0)
 }
 
 // ЗАВДАННЯ 12.4: Згрупуй активні віруси за типом
 // Результат: { "crash": [...], "drain": [...] }
 function grupaVorohiv(viruses) {
-  // TODO: filter активних + reduce для групування
+  // TODO: filter активних + reduce для групування// TODO: filter активних + reduce для групування
+  return viruses.reduce((groups, virus) => {
+    if (virus.active) {
+      if (!groups[virus.type]) {
+        groups[virus.type] = [];
+      }
+      groups[virus.type].push(virus);
+    }
+    return groups;
+  }, {});
 }
+
 
 // ═══════════════════════════════════════════════════════════
 // 🔵 ФАЗА 2: КЛАС ТЕМНОГО КОМПІЛЯТОРА
@@ -96,22 +117,42 @@ class DarkCompiler {
 
   constructor(name, hp, viruses) {
     // TODO
+    this.name = name
+    this.hp = hp
+    this.maxHp = hp
+    this.viruses = viruses
+    this.isAlive = true
+    this.phase = 1
   }
 
   getStatus() {
     // TODO
+    return `${this.name} | HP: ${this.hp}/${this.maxHp} | Фаза: ${this.phase} | Вірусів: ${this.viruses.length}`
   }
 
   takeDamage(dmg) {
     // TODO
+    this.hp -= dmg
+    if (this.hp < 0) {this.hp = 0}
+    this.isAlive = this.hp > 0
   }
 
   releaseVirus() {
     // TODO — підказка: sort за power (від більшого), взяти перший, видалити з масиву
+    const activeViruses = this.viruses.filter(virus => virus.active)
+    if (activeViruses.length === 0) return null
+    const strongest = activeViruses.reduce((max, virus) => virus.power > max.power ? virus : max)
+    const index = this.viruses.indexOf(strongest)
+    if (index !== -1) this.viruses.splice(index, 1)
+
+    return strongest;
   }
 
   nextPhase() {
     // TODO
+    this.phase += 1
+    this.hp += Math.round(this.maxHp * 0.2)
+    if (this.hp > this.maxHp) this.hp = this.maxHp
   }
 }
 
@@ -139,30 +180,48 @@ class Hero {
 
   constructor(name, hp, power) {
     // TODO
+    this.name = name
+    this.hp = hp
+    this.maxHp = hp
+    this.power = power
+    this.isAlive = true
+    this.abilities = ["Атака"]
+    this.xp = 0
   }
 
   getStatus() {
     // TODO
+    return `${this.name} | HP: ${this.hp}/${this.maxHp} | Сила: ${this.power} | XP: ${this.xp}`
   }
 
   attack() {
     // TODO: Math.floor(Math.random() * (this.power + 1) + this.power)
+    return Math.floor(Math.random() * (this.power + 1) + this.power)
   }
 
   takeDamage(dmg) {
     // TODO
+    this.hp -= dmg;
+    if (this.hp < 0) this.hp = 0;
+    this.isAlive = this.hp > 0;
   }
 
   gainXP(amount) {
     // TODO
+    this.xp += amount
   }
 
   learnAbility(ability) {
     // TODO
+    if (!this.abilities.includes(ability)) {
+      this.abilities.push(ability)
+    }
   }
 
   heal() {
     // TODO
+    this.hp += Math.round(this.maxHp * 0.3)
+    if (this.hp > this.maxHp) this.hp = this.maxHp
   }
 }
 
@@ -203,8 +262,41 @@ function symuliatsiia(hero, boss) {
 
   // TODO: напиши цикл бою
 
+  while (hero.isAlive && boss.isAlive && rounds < 50) {
+    rounds++;
+
+    const heroDmg = hero.attack();
+    boss.takeDamage(heroDmg);
+
+    let roundMsg = `Раунд ${rounds}: Герой атакує ${heroDmg} шкоди. `;
+
+    if (boss.isAlive) {
+      const virus = boss.releaseVirus();
+      if (virus) {
+        const virusDmg = Math.round(virus.power / 2);
+        hero.takeDamage(virusDmg);
+        roundMsg += `Бос випускає вірус "${virus.name}" (${virusDmg} шкоди).`;
+      } else {
+        hero.takeDamage(20);
+        roundMsg += `Бос атакує сам (20 шкоди).`;
+      }
+    }
+    if (rounds % 3 === 0 && boss.isAlive) {
+      boss.nextPhase();
+      roundMsg += ` Бос переходить у фазу ${boss.phase} та відновлює HP.`;
+    }
+
+    hero.gainXP(10);
+
+    log.push(roundMsg);
+  }
+  let winner;
+  if (hero.isAlive && !boss.isAlive) winner = 'hero';
+  else if (!hero.isAlive && boss.isAlive) winner = 'boss';
+  else winner = 'draw';
+
   return {
-    winner: 'draw',
+    winner,
     rounds,
     heroHp: hero.hp,
     bossHp: boss.hp,

@@ -60,7 +60,9 @@
 */
 
 function zatrymkaSyhnalu(message, callback) {
-  ???
+  setTimeout(() => {
+    callback(message);
+  }, 100);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -77,7 +79,11 @@ function zatrymkaSyhnalu(message, callback) {
 
 function peredachaDanykh(data) {
   return new Promise((resolve, reject) => {
-    ???
+    if (typeof data === "string" && data !== ""){
+      resolve(data.toUpperCase())
+    } else{
+      reject(new Error("Некоректні дані"))
+    }
   });
 }
 
@@ -97,9 +103,9 @@ function peredachaDanykh(data) {
 
 function perekoduvanniaSyhnalu(data) {
   return peredachaDanykh(data)
-    .then(???)
-    .then(???)
-    .catch(???);
+    .then(result => "🚀" + result)
+    .then(result => `<<${result}>>`)
+    .catch(() => "ПОМИЛКА ПЕРЕДАЧІ");
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -130,7 +136,12 @@ function findJediInDatabase(name) {
 */
 
 async function otrymatyDzhedaia(name) {
-  ???
+  try {
+    let res = await findJediInDatabase(name)
+    return `Знайдено: ${res.name}, ${res.rank}`
+  } catch (error){
+    return `Не знайдено: ${error.message}`
+  }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -151,7 +162,9 @@ async function otrymatyDzhedaia(name) {
 */
 
 async function paralelnyiZviazok(names) {
-  ???
+  const promises = names.map(name => otrymatyDzhedaia(name))
+  const results  = await Promise.all(promises)
+  return results
 }
 
 /*

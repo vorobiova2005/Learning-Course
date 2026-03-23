@@ -61,7 +61,7 @@
 */
 
 function rozpakovanyDzhedi(jediData) {
-  const { name, rank = ???, power, planet: homePlanet } = jediData;
+  const { name, rank = "Невідомий", power, planet: homePlanet } = jediData;
   return { name, rank, power, homePlanet };
 }
 
@@ -80,7 +80,7 @@ function rozpakovanyDzhedi(jediData) {
 
 function analitykaBotiv(scores) {
   const [first, second, ...rest] = scores;
-  return ???;
+  return { first, second, rest };
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -99,7 +99,8 @@ function analitykaBotiv(scores) {
 */
 
 function upgradeDzhedaia(jedi, updates) {
-  return ???;
+  const updatedJedi = {...jedi, ...updates}
+  return updatedJedi;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -117,7 +118,10 @@ function upgradeDzhedaia(jedi, updates) {
 */
 
 function bezpechnyiPilot(ship) {
-  return ???;
+  if (ship?.pilot?.name){
+    return ship.pilot.name
+  }
+  return "Autopilot";
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -140,9 +144,9 @@ function bezpechnyiPilot(ship) {
 */
 
 function nalashtuvannia(config) {
-  const volume     = config.volume     ?? ???;
-  const brightness = config.brightness ?? ???;
-  const lang       = config.lang       ?? ???;
+  const volume     = config.volume ?? 50;
+  const brightness = config.brightness ?? 100;
+  const lang       = config.lang ?? 'uk';
   return { volume, brightness, lang };
 }
 
@@ -157,7 +161,7 @@ function nalashtuvannia(config) {
 */
 
 function reportDzhedaia({ name, rank, power, planet = 'Невідома' }) {
-  return ???;
+  return `${rank} ${name} з ${planet}, сила: ${power}`;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -173,7 +177,7 @@ function reportDzhedaia({ name, rank, power, planet = 'Невідома' }) {
 */
 
 function zlyttiaKonfihiv(configs) {
-  return configs.reduce((acc, config) => ???, {});
+  return configs.reduce((acc, config) => ({ ...acc, ...config }), {});
 }
 
 /*

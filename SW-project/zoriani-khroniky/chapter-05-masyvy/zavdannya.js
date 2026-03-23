@@ -54,16 +54,15 @@
 */
 
 function reiestratsiiaFlotu() {
-  let fleet = ???;   // масив з 4 кораблів
+  let fleet = ["X-Wing", "Y-Wing", "A-Wing", "B-Wing"];
 
-  // 1. push:
-  ???
-  // 2. unshift:
-  ???
-  // 3. shift:
-  ???
-  // 4. pop:
-  ???
+  fleet.push("Millennium Falcon")
+
+  fleet.unshift("Ghost")
+
+  fleet.shift()
+
+  fleet.pop()
 
   return fleet;
 }
@@ -79,11 +78,11 @@ function reiestratsiiaFlotu() {
 */
 
 function chyIsniuieKorabl(fleet, name) {
-  ???
+  return fleet.includes(name)
 }
 
 function znaidyPozytsiiu(fleet, name) {
-  ???
+  return fleet.indexOf(name)
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -95,7 +94,7 @@ function znaidyPozytsiiu(fleet, name) {
 */
 
 function pershaTroyakEskadrylia(fleet) {
-  ???
+  return fleet.slice(0, 3)
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -107,7 +106,11 @@ function pershaTroyakEskadrylia(fleet) {
 */
 
 function ziednaniaFlotiv(fleet1, fleet2) {
-  ???
+  const newFleet = [
+      ...fleet1,
+      ...fleet2
+  ]
+  return newFleet
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -120,7 +123,7 @@ function ziednaniaFlotiv(fleet1, fleet2) {
 */
 
 function manifest(crew) {
-  ???
+  return crew.join(", ")
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -138,8 +141,7 @@ function manifest(crew) {
 */
 
 function boioveSortuvannia(powers) {
-  // Повертає копію відсортованого масиву (від меншого до більшого)
-  return [...powers].sort(???);
+  return [...powers].sort((a, b) => a - b);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -154,7 +156,7 @@ function boioveSortuvannia(powers) {
 */
 
 function vydatyPoshkodzhenyi(fleet, index) {
-  ???
+  return [...fleet.slice(0, index), ...fleet.slice(index + 1)]
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -169,7 +171,16 @@ function vydatyPoshkodzhenyi(fleet, index) {
 
 function naishvydshyiKorabl(ships) {
   // ships = [{name: "X-Wing", speed: 100}, ...]
-  ???
+  let maxSpeed = -Infinity;
+  let fastestShipName = "";
+
+  for (const ship of ships) {
+    if (ship.speed > maxSpeed) {
+      maxSpeed = ship.speed;
+      fastestShipName = ship.name;
+    }
+  }
+  return fastestShipName
 }
 
 /*

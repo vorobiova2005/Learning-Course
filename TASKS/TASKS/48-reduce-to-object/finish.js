@@ -7,6 +7,18 @@
  * равными сумме всех количеств в каждой категории
  */
 
+function quantitiesByCategories (products){
+  return products.reduce((acc, product) =>{
+    if(acc[product.category]){
+      acc[product.category] += product.quantity;
+    }else {
+      acc[product.category] = product.quantity;
+    }
+    return acc;
+  } ,{})
+}
+
+
 const inputProducts = [
   {
     title: 'Phone case',

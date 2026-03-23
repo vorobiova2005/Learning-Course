@@ -9,6 +9,15 @@
  * а затем применить метод "includes" с аргументом, который также будет преобразован в строку
  */
 
+function isElementInArray(searchElement, inputArray){
+  if (typeof searchElement !== "object"){
+    return inputArray.includes(searchElement)
+  } else{
+    const strings = inputArray.map(element => String(element))
+    return strings.includes(String(searchElement))
+  }
+}
+
 const tags = [
   ['javascript', 'es6'],
   ['css', 'flexbox'],

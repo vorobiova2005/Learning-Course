@@ -62,7 +62,11 @@
 */
 
 function bezpechneDialennia(a, b) {
-  ???
+  if(b === 0){
+    throw new Error("Ділення на нуль неможливе!")
+  } else{
+    return a / b
+  }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -78,7 +82,11 @@ function bezpechneDialennia(a, b) {
 */
 
 function bezpechnyiVyklyk(fn) {
-  ???
+  try {
+    return fn()
+  } catch(error){
+      return `Помилка: ${error.message}`
+  }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -95,7 +103,10 @@ function bezpechnyiVyklyk(fn) {
 */
 
 function validateDzhedaia(name, power, rank) {
-  ???
+  if (typeof name !== "string" || name === "") {throw new TypeError("Ім'я має бути непорожнім рядком")}
+  if (power < 1 || power > 100){throw new RangeError("Сила має бути від 1 до 100")}
+  if (typeof rank !== "string") {throw new TypeError("Ранг має бути рядком")}
+  return true
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -116,7 +127,9 @@ function validateDzhedaia(name, power, rank) {
 
 class GalacticError extends Error {
   constructor(message, code) {
-    ???
+    super(message);
+    this.name = "GalacticError";
+    this.code = code;
   }
 }
 
@@ -142,7 +155,17 @@ function zviazok(message) {
   let success = false;
   let errorMsg = null;
 
-  ???
+  try {
+    if (message === ''){
+      throw new Error('Порожнє повідомлення')
+    }
+    success = true
+  } catch (error){
+    success = false
+    errorMsg = error.message
+  } finally {
+    channel = 'закритий'
+  }
 
   return { success, channel, error: errorMsg };
 }
@@ -162,7 +185,16 @@ function zviazok(message) {
 */
 
 function zonaNebezpeky(operations) {
-  ???
+  let results = []
+  for (const oper of operations){
+    try {
+      const result = oper()
+      results.push({ success: true, result })
+    } catch (error){
+      results.push({ success: false, error: error.message})
+    }
+  }
+  return results
 }
 
 /*

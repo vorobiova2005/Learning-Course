@@ -16,8 +16,9 @@ let person = {
   name: 'Samanta Larsen',
   cartId: 435,
 }
+const { _id,processed, cart, ...safePerson } = person;
 
-console.log(person)
+console.log(safePerson)
 /*
 {
   index: 4,
