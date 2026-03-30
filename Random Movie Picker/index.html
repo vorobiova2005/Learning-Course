@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Picker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <div class="genre-buttons">
+        <button class="genre-btn" data-genre="All">All</button>
+        <button class="genre-btn" data-genre="Action">Action</button>
+        <button class="genre-btn" data-genre="Romance">Romance</button>
+        <button class="genre-btn" data-genre="Fantasy">Fantasy</button>
+        <button class="genre-btn" data-genre="Drama">Drama</button>
+        <button class="genre-btn" data-genre="Sci-Fi">Sci-Fi</button>
+        <button class="genre-btn" data-genre="Animation">Animation</button>
+        <button class="genre-btn" data-genre="Adventure">Adventure</button>
+        <button class="genre-btn" data-genre="Crime">Crime</button>
+        <button class="genre-btn" data-genre="Musical">Musical</button>
+    </div>
+
+    <div class="card-wrapper">
+        <button id="prev-movie-btn" class="side-btn">👈</button>
+
+        <div class="card">
+            <img id="movie-img" src="resources/img/films.jpg" alt="movie image">
+            <h2 id="movie-title">Choose a movie 🎬</h2>
+            <p id="movie-genre"></p>
+            <p id="movie-description"></p>
+            <button id="random-movie-btn">Get Movie</button>
+            <p id="view-counter">You viewed 0 movies</p>
+        </div>
+
+        <button id="next-movie-btn" class="side-btn">👉</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
