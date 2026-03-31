@@ -89,3 +89,11 @@ button:hover {
 .genre-btn:hover {
     background: #4e3dc7;
 }
+
+.star-icon {
+    font-size: 30px;
+    color: yellow;
+    vertical-align: middle;
+    cursor: pointer;
+     padding-left: 2%;
+}

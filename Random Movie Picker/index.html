@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Movie Picker</title>
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+            integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -29,13 +36,15 @@
             <p id="movie-genre"></p>
             <p id="movie-description"></p>
             <button id="random-movie-btn">Get Movie</button>
+            <i id="quote-favorite-btn" class="far fa-star star-icon"></i>
             <p id="view-counter">You viewed 0 movies</p>
         </div>
 
         <button id="next-movie-btn" class="side-btn">👉</button>
     </div>
+
 </div>
 
-<script src="script.js"></script>
+<script type="module" src="./js/script.js"></script>
 </body>
 </html>

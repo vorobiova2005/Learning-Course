@@ -1,0 +1,9 @@
+export const title = document.getElementById("movie-title");
+export const genre = document.getElementById("movie-genre");
+export const description = document.getElementById("movie-description");
+export const img = document.getElementById("movie-img");
+export const btn = document.getElementById("random-movie-btn");
+export const nextbtn = document.getElementById("next-movie-btn");
+export const prevbtn = document.getElementById("prev-movie-btn");
+export const viewcounter = document.getElementById("view-counter");
+export const genrebtn = document.querySelectorAll(".genre-btn");
