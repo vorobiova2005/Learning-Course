@@ -7,3 +7,5 @@ export const nextbtn = document.getElementById("next-movie-btn");
 export const prevbtn = document.getElementById("prev-movie-btn");
 export const viewcounter = document.getElementById("view-counter");
 export const genrebtn = document.querySelectorAll(".genre-btn");
+export const toggleFavoriteBtn = document.getElementById("movie-favorite-btn");
+export const favoritesContainer = document.getElementById("favorites-container");

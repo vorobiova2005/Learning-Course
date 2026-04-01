@@ -1,5 +1,6 @@
 import { movies } from './data/movies.js';
-import { title, genre, description, img, btn, nextbtn, prevbtn, viewcounter, genrebtn } from './dom.js';
+import { title, genre, description, img, btn, nextbtn, prevbtn, viewcounter, genrebtn, toggleFavoriteBtn, favoritesContainer } from './dom.js';
+
 
 
 let lastIndex = -1;
@@ -102,7 +103,32 @@ function prevFilm(){
 }
 
 
+function toggleFavorite(){
+    const currentMovie = filteredMovie[currentIndex];
+    currentMovie.isFavorite = !currentMovie.isFavorite
+
+    if (currentMovie.isFavorite) {
+        const favoriteCard = document.createElement('div');
+        favoriteCard.classList.add('favorite-card');
+        favoriteCard.innerHTML = `
+        <img src="${currentMovie.image}" alt="${currentMovie.title}">
+        <p>${currentMovie.title}</p>
+        <p class="genre">${currentMovie.genre}</p>
+        <p class="description">${currentMovie.description}</p>
+        `;
+        favoritesContainer.appendChild(favoriteCard);
+    } else{
+        const favoriteCards = document.querySelectorAll('.favorite-card');
+        favoriteCards.forEach(card => {
+            if (card.textContent.includes(currentMovie.title)) {
+                card.remove();
+            }
+        })
+    }
+}
+
 
 btn.addEventListener("click", getRandomMovie);
-nextbtn.addEventListener("click", nextFilm)
-prevbtn.addEventListener("click", prevFilm)
+nextbtn.addEventListener("click", nextFilm);
+prevbtn.addEventListener("click", prevFilm);
+toggleFavoriteBtn.addEventListener("click", toggleFavorite);
