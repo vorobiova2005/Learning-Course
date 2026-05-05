@@ -4,7 +4,7 @@ import  {handleQuote} from "./src/handlers/quote.js";
 
 const favoritesContainer = document.getElementById("favorites-container");
 const favoriteBtn = document.getElementById("quote-favorite-btn");
-hideFavoriteBtn(favoriteBtn);
+hideFavoriteBtn();
 favoriteBtn.addEventListener("click", () => toggleFavorite(currentQuote, favoriteBtn, favoritesContainer));
 
 let currentQuote = null;

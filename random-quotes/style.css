@@ -85,3 +85,7 @@ body {
     vertical-align: middle;
     cursor: pointer;
 }
+
+#remove-favorite-btn{
+    margin-left: 90%;
+}

@@ -15,7 +15,6 @@ function renderMovie(movie){
     genre.textContent = movie.genre;
     description.textContent = movie.description;
     img.src = movie.image;
-
     toggleFavoriteBtn.disabled = false;
     toggleFavoriteIcon(movie.isFavorite);
 }
@@ -36,11 +35,9 @@ function toggleFavoriteIcon(isFavorite){
 genrebtn.forEach((btn) => {
     btn.addEventListener("click", () => {
         selectedGenre = btn.dataset.genre;
-
         filteredMovie = selectedGenre === 'All'
             ? [...movies]
             : movies.filter(movie => movie.genre === selectedGenre);
-
         currentIndex = 0;
         viewedMovies = [];
         counter = 0;
@@ -55,71 +52,59 @@ genrebtn.forEach((btn) => {
 
 function getRandomMovie() {
     if (filteredMovie.length === 0) return;
-
     let randomIndex;
     do {
         randomIndex = Math.floor(Math.random() * filteredMovie.length);
     } while (randomIndex === currentIndex);
-
     currentIndex = randomIndex;
-
     renderMovie(filteredMovie[currentIndex]);
     updateViewCounter();
 }
 
 function nextFilm(){
     if (filteredMovie.length === 0) return;
-
     currentIndex = (currentIndex + 1) % filteredMovie.length;
-
     renderMovie(filteredMovie[currentIndex]);
     updateViewCounter();
 }
 
 function prevFilm(){
     if (filteredMovie.length === 0) return;
-
     currentIndex = (currentIndex - 1 + filteredMovie.length) % filteredMovie.length;
-
     renderMovie(filteredMovie[currentIndex]);
     updateViewCounter();
 }
 
 
-function showFavoriteCard(image, title, genre, description){
+function showFavoriteCard(movie){
     const favoriteCard = document.createElement('div');
     favoriteCard.classList.add('favorite-card');
-
+    favoriteCard.dataset.id = movie.id;
     favoriteCard.innerHTML = `
-        <img src="${image}" alt="${title}">
-        <p>${title}</p>
-        <p class="genre">${genre}</p>
-        <p class="description">${description}</p>
+        <img src="${movie.image}" alt="${movie.title}">
+        <p>${movie.title}</p>
+        <p class="genre">${movie.genre}</p>
+        <p class="description">${movie.description}</p>
         <i class="fa fa-star star-icon"></i>
     `;
-
     const starIcon = favoriteCard.querySelector('.star-icon');
-
     starIcon.addEventListener('click', () => {
-        const movie = movies.find(m => m.title === title);
-
-        if (movie) {
-            movie.isFavorite = false;
+        const movieToRemove = movies.find(m => m.id === movie.id);
+        if (movieToRemove) {
+            movieToRemove.isFavorite = false;
         }
-
         favoriteCard.remove();
-
-        if (filteredMovie[currentIndex]?.title === title) {
+        const currentMovie = filteredMovie[currentIndex];
+        if (currentMovie && currentMovie.id === movie.id) {
             toggleFavoriteIcon(false);
         }
     });
-
     favoritesContainer.appendChild(favoriteCard);
 }
 
-function hideFavoriteCard(title){
+function hideFavoriteCard(id){
     document.querySelectorAll('.favorite-card').forEach(card => {
-        if (card.textContent.includes(title)) {
+        if (card.dataset.id === id) {
             card.remove();
         }
     });
@@ -127,21 +112,13 @@ function hideFavoriteCard(title){
 
 function toggleFavorite(){
     if (currentIndex === -1) return;
-
     const currentMovie = filteredMovie[currentIndex];
     currentMovie.isFavorite = !currentMovie.isFavorite;
-
     toggleFavoriteIcon(currentMovie.isFavorite);
-
     if (currentMovie.isFavorite) {
-        showFavoriteCard(
-            currentMovie.image,
-            currentMovie.title,
-            currentMovie.genre,
-            currentMovie.description
-        );
+        showFavoriteCard(currentMovie);
     } else {
-        hideFavoriteCard(currentMovie.title);
+        hideFavoriteCard(currentMovie.id);
     }
 }
 
