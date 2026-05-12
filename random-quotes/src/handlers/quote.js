@@ -1,5 +1,5 @@
 import {handleFavorite} from "./favorites.js";
-import {generateRandomInt} from "../utils.js";
+import {generateRandomInt} from "../utils/math.js";
 
 function handleQuote(quotes, setCurrentQuote){
     const randomQuote = choseRandomQuote(quotes)

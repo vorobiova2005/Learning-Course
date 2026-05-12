@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TaskFlow — Менеджер завдань</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ========== HEADER ========== -->
+<header class="header">
+    <div class="header__logo">
+        <span class="header__logo-icon">◈</span>
+        <span class="header__logo-text">TaskFlow</span>
+    </div>
+
+    <div class="header__controls">
+        <!-- Пошук (Етап 3) -->
+        <div class="search-box">
+            <span class="search-box__icon">⌕</span>
+            <input
+                    type="text"
+                    id="searchInput"
+                    class="search-box__input"
+                    placeholder="Пошук завдань..."
+            />
+        </div>
+
+        <!-- Фільтр пріоритету (Етап 3) -->
+        <select id="priorityFilter" class="filter-select">
+            <option value="all">Всі пріоритети</option>
+            <option value="high">🔴 Високий</option>
+            <option value="medium">🟡 Середній</option>
+            <option value="low">🟢 Низький</option>
+        </select>
+
+        <!-- Перемикач теми (Етап 4) -->
+        <button id="themeToggle" class="theme-toggle" title="Змінити тему">
+            <span class="theme-toggle__icon">◑</span>
+        </button>
+    </div>
+</header>
+
+<!-- ========== MAIN BOARD ========== -->
+<main class="board">
+
+    <!-- ---- КОЛОНКА: TO DO ---- -->
+    <section class="column" id="col-todo" data-status="todo">
+        <div class="column__header">
+            <div class="column__title-wrap">
+                <span class="column__dot column__dot--todo"></span>
+                <h2 class="column__title">To Do</h2>
+                <!-- Лічильник карток (Етап 2) -->
+                <span class="column__count" id="count-todo">0</span>
+            </div>
+            <button class="column__add-btn" data-column="todo" title="Додати завдання">
+                +
+            </button>
+        </div>
+
+        <!-- Картки сюди додає JS -->
+        <div class="column__cards" id="cards-todo">
+
+        </div>
+    </section>
+
+    <!-- ---- КОЛОНКА: IN PROGRESS ---- -->
+    <section class="column" id="col-inprogress" data-status="inprogress">
+        <div class="column__header">
+            <div class="column__title-wrap">
+                <span class="column__dot column__dot--inprogress"></span>
+                <h2 class="column__title">In Progress</h2>
+                <span class="column__count" id="count-inprogress">0</span>
+            </div>
+            <button class="column__add-btn" data-column="inprogress" title="Додати завдання">
+                +
+            </button>
+        </div>
+        <div class="column__cards" id="cards-inprogress">
+
+        </div>
+    </section>
+
+    <!-- ---- КОЛОНКА: DONE ---- -->
+    <section class="column" id="col-done" data-status="done">
+        <div class="column__header">
+            <div class="column__title-wrap">
+                <span class="column__dot column__dot--done"></span>
+                <h2 class="column__title">Done</h2>
+                <span class="column__count" id="count-done">0</span>
+            </div>
+            <button class="column__add-btn" data-column="done" title="Додати завдання">
+                +
+            </button>
+        </div>
+        <div class="column__cards" id="cards-done">
+
+        </div>
+    </section>
+
+</main>
+
+<!-- ========== МОДАЛЬНЕ ВІКНО — ФОРМА ========== -->
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal">
+
+        <div class="modal__header">
+            <h3 class="modal__title">Нове завдання</h3>
+            <button class="modal__close" id="modalClose">✕</button>
+        </div>
+
+        <div class="modal__body">
+
+            <!-- Назва -->
+            <div class="form-group">
+                <label class="form-label" for="taskTitle">Назва завдання *</label>
+                <input
+                        type="text"
+                        id="taskTitle"
+                        class="form-input"
+                        placeholder="Наприклад: Зверстати головну сторінку"
+                        maxlength="80"
+                />
+            </div>
+
+            <!-- Опис -->
+            <div class="form-group">
+                <label class="form-label" for="taskDesc">Опис</label>
+                <textarea
+                        id="taskDesc"
+                        class="form-textarea"
+                        placeholder="Додаткові деталі завдання..."
+                        rows="3"
+                ></textarea>
+            </div>
+
+            <!-- Пріоритет + Дедлайн -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="taskPriority">Пріоритет</label>
+                    <select id="taskPriority" class="form-select">
+                        <option value="low">🟢 Низький</option>
+                        <option value="medium" selected>🟡 Середній</option>
+                        <option value="high">🔴 Високий</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="taskDeadline">Дедлайн</label>
+                    <input type="date" id="taskDeadline" class="form-input" />
+                </div>
+            </div>
+
+            <!-- Прихований інпут: яка колонка активна -->
+            <input type="hidden" id="taskColumn" value="todo" />
+
+        </div>
+
+        <div class="modal__footer">
+            <button class="btn btn--ghost" id="modalCancel">Скасувати</button>
+            <button class="btn btn--primary" id="taskSaveBtn">Зберегти</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- ========== ШАБЛОН КАРТКИ (невидимий — JS клонує його) ========== -->
+<template id="cardTemplate">
+    <article class="card" draggable="true">
+        <div class="card__header">
+            <span class="card__priority-badge"></span>
+            <button class="card__delete" title="Видалити">✕</button>
+        </div>
+        <h4 class="card__title"></h4>
+        <p class="card__desc"></p>
+        <div class="card__footer">
+            <span class="card__deadline"></span>
+            <div class="card__actions">
+                <button class="card__edit"><i class="fa-solid fa-pencil"></i></button>
+                <!-- Кнопки переміщення між колонками -->
+                <button class="card__move card__move--prev" title="Назад">←</button>
+                <button class="card__move card__move--next" title="Вперед">→</button>
+
+            </div>
+        </div>
+    </article>
+</template>
+
+<script src="app.js"></script>
+</body>
+</html>

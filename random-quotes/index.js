@@ -11,6 +11,7 @@ let currentQuote = null;
 
 
 function setCurrentQuote(quote){
+    
     currentQuote = quote;
 }
 

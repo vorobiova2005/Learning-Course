@@ -1,0 +1,1434 @@
+/* ============================================
+   TASKFLOW — Таск-менеджер
+   Стилі (без JS-логіки)
+   ============================================ */
+
+/* ---------- CSS ЗМІННІ (ТЕМИ) ---------- */
+:root {
+    /* Світла тема */
+    --bg-page:        #f0ede8;
+    --bg-board:       #e8e4de;
+    --bg-column:      #ffffff;
+    --bg-card:        #fafaf9;
+    --bg-card-hover:  #ffffff;
+    --bg-modal:       #ffffff;
+    --bg-overlay:     rgba(30, 26, 20, 0.45);
+    --bg-input:       #f5f3f0;
+
+    --color-text:         #1a1714;
+    --color-text-muted:   #7a746c;
+    --color-text-light:   #b0a89e;
+
+    --color-border:       #e0dbd4;
+    --color-border-focus: #c8a97e;
+
+    --color-accent:       #c8a97e;
+    --color-accent-dark:  #a8895e;
+
+    /* Кольори колонок */
+    --dot-todo:       #e07b5a;
+    --dot-progress:   #d4a843;
+    --dot-done:       #5aab7e;
+
+    /* Пріоритети */
+    --priority-high:   #e05a5a;
+    --priority-medium: #d4a843;
+    --priority-low:    #5aab7e;
+
+    --shadow-card:    0 1px 3px rgba(0,0,0,.07), 0 4px 16px rgba(0,0,0,.05);
+    --shadow-modal:   0 8px 40px rgba(0,0,0,.14);
+
+    --radius-card:    12px;
+    --radius-modal:   16px;
+    --radius-input:   8px;
+    --radius-badge:   6px;
+
+    --font-display:  'Syne', sans-serif;
+    --font-body:     'DM Sans', sans-serif;
+
+    --transition:    .2s ease;
+}
+
+/* Темна тема */
+[data-theme="dark"] {
+    --bg-page:        #111009;
+    --bg-board:       #161410;
+    --bg-column:      #1e1c17;
+    --bg-card:        #252218;
+    --bg-card-hover:  #2c2920;
+    --bg-modal:       #1e1c17;
+    --bg-overlay:     rgba(0,0,0,.6);
+    --bg-input:       #2c2920;
+
+    --color-text:         #f0ede8;
+    --color-text-muted:   #8a8278;
+    --color-text-light:   #5a5550;
+
+    --color-border:       #2e2b24;
+    --color-border-focus: #c8a97e;
+
+    --shadow-card:    0 1px 3px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.2);
+    --shadow-modal:   0 8px 40px rgba(0,0,0,.5);
+}
+
+/* ---------- RESET & BASE ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; }
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-page);
+    color: var(--color-text);
+    min-height: 100vh;
+    transition: background-color var(--transition), color var(--transition);
+}
+
+/* ---------- HEADER ---------- */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    height: 64px;
+    background: var(--bg-page);
+    border-bottom: 1px solid var(--color-border);
+    transition: background var(--transition);
+}
+
+.header__logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header__logo-icon {
+    font-size: 22px;
+    color: var(--color-accent);
+    line-height: 1;
+}
+
+.header__logo-text {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--color-text);
+}
+
+.header__controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Пошук */
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-box__icon {
+    position: absolute;
+    left: 12px;
+    color: var(--color-text-muted);
+    font-size: 18px;
+    pointer-events: none;
+    line-height: 1;
+}
+
+.search-box__input {
+    background: var(--bg-input);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-input);
+    padding: 8px 14px 8px 36px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text);
+    width: 220px;
+    transition: border-color var(--transition), box-shadow var(--transition);
+    outline: none;
+}
+
+.search-box__input:focus {
+    border-color: var(--color-border-focus);
+    box-shadow: 0 0 0 3px rgba(200, 169, 126, .15);
+}
+
+.search-box__input::placeholder { color: var(--color-text-light); }
+
+/* Фільтр */
+.filter-select {
+    background: var(--bg-input);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-input);
+    padding: 8px 12px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text);
+    cursor: pointer;
+    outline: none;
+    transition: border-color var(--transition);
+}
+
+.filter-select:focus { border-color: var(--color-border-focus); }
+
+/* Перемикач теми */
+.theme-toggle {
+    background: var(--bg-input);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-input);
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition), border-color var(--transition);
+    color: var(--color-text-muted);
+}
+
+.theme-toggle:hover {
+    border-color: var(--color-border-focus);
+    color: var(--color-accent);
+}
+
+.theme-toggle__icon { font-size: 18px; line-height: 1; }
+
+/* ---------- BOARD (канбан-сітка) ---------- */
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    padding: 28px 32px;
+    max-width: 1280px;
+    margin: 0 auto;
+    min-height: calc(100vh - 64px);
+}
+
+/* ---------- КОЛОНКА ---------- */
+.column {
+    background: var(--bg-column);
+    border-radius: 16px;
+    border: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    transition: background var(--transition), border-color var(--transition);
+    min-height: 500px;
+}
+
+/* Підсвітка при перетягуванні (JS додає клас .drag-over) */
+.column.drag-over {
+    border-color: var(--color-accent);
+    background: var(--bg-card-hover);
+}
+
+.column__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+}
+
+.column__title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Кольорова крапка */
+.column__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.column__dot--todo       { background: var(--dot-todo); }
+.column__dot--inprogress { background: var(--dot-progress); }
+.column__dot--done       { background: var(--dot-done); }
+
+.column__title {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    color: var(--color-text);
+}
+
+/* Лічильник */
+.column__count {
+    background: var(--bg-input);
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    padding: 1px 9px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    min-width: 24px;
+    text-align: center;
+    transition: background var(--transition);
+}
+
+/* Кнопка "+" */
+.column__add-btn {
+    background: transparent;
+    border: 1.5px dashed var(--color-border);
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color var(--transition), color var(--transition), background var(--transition);
+    flex-shrink: 0;
+}
+
+.column__add-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background: rgba(200, 169, 126, .08);
+}
+
+/* Список карток */
+.column__cards {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+/* Порожній стан (JS може показувати) */
+.column__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 40px 20px;
+    color: var(--color-text-light);
+    font-size: 13px;
+    text-align: center;
+    border: 1.5px dashed var(--color-border);
+    border-radius: 10px;
+    margin: 0 0 4px;
+}
+
+.column__empty-icon { font-size: 28px; opacity: .5; }
+
+/* ---------- КАРТКА ---------- */
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    padding: 14px 14px 12px;
+    cursor: grab;
+    transition:
+            background var(--transition),
+            border-color var(--transition),
+            box-shadow var(--transition),
+            transform var(--transition);
+    animation: cardIn .25s ease;
+}
+
+@keyframes cardIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--color-border-focus);
+    box-shadow: var(--shadow-card);
+    transform: translateY(-2px);
+}
+
+/* Картка, яку тягнуть */
+.card.dragging {
+    opacity: .45;
+    cursor: grabbing;
+    transform: rotate(1.5deg) scale(1.03);
+    box-shadow: 0 12px 32px rgba(0,0,0,.18);
+}
+
+/* Завершені картки — приглушені */
+#col-done .card {
+    opacity: .75;
+}
+
+#col-done .card .card__title {
+    text-decoration: line-through;
+    color: var(--color-text-muted);
+}
+
+.card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+/* Бейдж пріоритету */
+.card__priority-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: var(--radius-badge);
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
+.card__priority-badge[data-priority="high"] {
+    background: rgba(224, 90, 90, .12);
+    color: var(--priority-high);
+}
+
+.card__priority-badge[data-priority="medium"] {
+    background: rgba(212, 168, 67, .12);
+    color: var(--priority-medium);
+}
+
+.card__priority-badge[data-priority="low"] {
+    background: rgba(90, 171, 126, .12);
+    color: var(--priority-low);
+}
+
+/* Кнопка видалення */
+.card__delete {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-light);
+    font-size: 13px;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition), color var(--transition);
+    flex-shrink: 0;
+}
+
+.card__delete:hover {
+    background: rgba(224, 90, 90, .1);
+    color: var(--priority-high);
+}
+
+/* Кнопка редагування */
+.card__edit {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-light);
+    font-size: 11px;
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition), color var(--transition);
+    flex-shrink: 0;
+}
+
+.card__edit:hover {
+    background: rgba(200, 169, 126, .12);
+    color: var(--color-accent);
+}
+
+.card__title {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.4;
+    margin-bottom: 6px;
+    word-break: break-word;
+}
+
+.card__desc {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    margin-bottom: 12px;
+    word-break: break-word;
+}
+
+.card__desc:empty { display: none; }
+
+.card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+    border-top: 1px solid var(--color-border);
+}
+
+.card__deadline {
+    font-size: 12px;
+    color: var(--color-text-light);
+}
+
+/* Дедлайн прострочений */
+.card__deadline.overdue {
+    color: var(--priority-high);
+    font-weight: 600;
+}
+
+.card__actions {
+    display: flex;
+    gap: 4px;
+}
+
+.card__move {
+    background: var(--bg-input);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.card__move:hover {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+}
+
+.card__move:disabled {
+    opacity: .3;
+    cursor: not-allowed;
+}
+
+.card__move:disabled:hover {
+    background: var(--bg-input);
+    border-color: var(--color-border);
+    color: var(--color-text-muted);
+}
+
+/* ---------- МОДАЛЬНЕ ВІКНО ---------- */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg-overlay);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 20px;
+
+    /* Початково приховане — JS додає клас .is-open */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease;
+}
+
+.modal-overlay.is-open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal {
+    background: var(--bg-modal);
+    border-radius: var(--radius-modal);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-modal);
+    width: 100%;
+    max-width: 480px;
+    transform: translateY(16px) scale(.97);
+    transition: transform .2s ease;
+}
+
+.modal-overlay.is-open .modal {
+    transform: translateY(0) scale(1);
+}
+
+.modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.modal__title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.modal__close {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    font-size: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition), color var(--transition);
+}
+
+.modal__close:hover {
+    background: var(--bg-input);
+    color: var(--priority-high);
+}
+
+.modal__body {
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.modal__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 24px 20px;
+    border-top: 1px solid var(--color-border);
+}
+
+/* ---------- ФОРМА ---------- */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.form-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    letter-spacing: 0.2px;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+    background: var(--bg-input);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-input);
+    padding: 10px 12px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text);
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
+    width: 100%;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+    border-color: var(--color-border-focus);
+    box-shadow: 0 0 0 3px rgba(200, 169, 126, .15);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder { color: var(--color-text-light); }
+
+.form-textarea { resize: vertical; min-height: 80px; }
+
+/* ---------- КНОПКИ ---------- */
+.btn {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 9px 20px;
+    border-radius: var(--radius-input);
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition), border-color var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn--primary {
+    background: var(--color-accent);
+    color: #fff;
+    border-color: var(--color-accent);
+}
+
+.btn--primary:hover {
+    background: var(--color-accent-dark);
+    border-color: var(--color-accent-dark);
+}
+
+.btn--ghost {
+    background: transparent;
+    color: var(--color-text-muted);
+    border-color: var(--color-border);
+}
+
+.btn--ghost:hover {
+    background: var(--bg-input);
+    color: var(--color-text);
+}
+
+/* ---------- АДАПТИВ ---------- */
+@media (max-width: 900px) {
+    .board {
+        grid-template-columns: 1fr;
+        padding: 20px 16px;
+    }
+
+    .header {
+        padding: 0 16px;
+        flex-wrap: wrap;
+        height: auto;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        gap: 10px;
+    }
+
+    .header__controls {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .search-box__input { width: 160px; }
+
+    .form-row { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+    .search-box__input { width: 130px; }
+    .filter-select { display: none; }
+}/* ============================================
+   TASKFLOW — Таск-менеджер
+   Стилі (без JS-логіки)
+   ============================================ */
+
+/* ---------- CSS ЗМІННІ (ТЕМИ) ---------- */
+:root {
+    /* Світла тема */
+    --bg-page:        #f0ede8;
+    --bg-board:       #e8e4de;
+    --bg-column:      #ffffff;
+    --bg-card:        #fafaf9;
+    --bg-card-hover:  #ffffff;
+    --bg-modal:       #ffffff;
+    --bg-overlay:     rgba(30, 26, 20, 0.45);
+    --bg-input:       #f5f3f0;
+
+    --color-text:         #1a1714;
+    --color-text-muted:   #7a746c;
+    --color-text-light:   #b0a89e;
+
+    --color-border:       #e0dbd4;
+    --color-border-focus: #c8a97e;
+
+    --color-accent:       #c8a97e;
+    --color-accent-dark:  #a8895e;
+
+    /* Кольори колонок */
+    --dot-todo:       #e07b5a;
+    --dot-progress:   #d4a843;
+    --dot-done:       #5aab7e;
+
+    /* Пріоритети */
+    --priority-high:   #e05a5a;
+    --priority-medium: #d4a843;
+    --priority-low:    #5aab7e;
+
+    --shadow-card:    0 1px 3px rgba(0,0,0,.07), 0 4px 16px rgba(0,0,0,.05);
+    --shadow-modal:   0 8px 40px rgba(0,0,0,.14);
+
+    --radius-card:    12px;
+    --radius-modal:   16px;
+    --radius-input:   8px;
+    --radius-badge:   6px;
+
+    --font-display:  'Syne', sans-serif;
+    --font-body:     'DM Sans', sans-serif;
+
+    --transition:    .2s ease;
+}
+
+/* Темна тема */
+[data-theme="dark"] {
+    --bg-page:        #111009;
+    --bg-board:       #161410;
+    --bg-column:      #1e1c17;
+    --bg-card:        #252218;
+    --bg-card-hover:  #2c2920;
+    --bg-modal:       #1e1c17;
+    --bg-overlay:     rgba(0,0,0,.6);
+    --bg-input:       #2c2920;
+
+    --color-text:         #f0ede8;
+    --color-text-muted:   #8a8278;
+    --color-text-light:   #5a5550;
+
+    --color-border:       #2e2b24;
+    --color-border-focus: #c8a97e;
+
+    --shadow-card:    0 1px 3px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.2);
+    --shadow-modal:   0 8px 40px rgba(0,0,0,.5);
+}
+
+/* ---------- RESET & BASE ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; }
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-page);
+    color: var(--color-text);
+    min-height: 100vh;
+    transition: background-color var(--transition), color var(--transition);
+}
+
+/* ---------- HEADER ---------- */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    height: 64px;
+    background: var(--bg-page);
+    border-bottom: 1px solid var(--color-border);
+    transition: background var(--transition);
+}
+
+.header__logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header__logo-icon {
+    font-size: 22px;
+    color: var(--color-accent);
+    line-height: 1;
+}
+
+.header__logo-text {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--color-text);
+}
+
+.header__controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Пошук */
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-box__icon {
+    position: absolute;
+    left: 12px;
+    color: var(--color-text-muted);
+    font-size: 18px;
+    pointer-events: none;
+    line-height: 1;
+}
+
+.search-box__input {
+    background: var(--bg-input);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-input);
+    padding: 8px 14px 8px 36px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text);
+    width: 220px;
+    transition: border-color var(--transition), box-shadow var(--transition);
+    outline: none;
+}
+
+.search-box__input:focus {
+    border-color: var(--color-border-focus);
+    box-shadow: 0 0 0 3px rgba(200, 169, 126, .15);
+}
+
+.search-box__input::placeholder { color: var(--color-text-light); }
+
+/* Фільтр */
+.filter-select {
+    background: var(--bg-input);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-input);
+    padding: 8px 12px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text);
+    cursor: pointer;
+    outline: none;
+    transition: border-color var(--transition);
+}
+
+.filter-select:focus { border-color: var(--color-border-focus); }
+
+/* Перемикач теми */
+.theme-toggle {
+    background: var(--bg-input);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-input);
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition), border-color var(--transition);
+    color: var(--color-text-muted);
+}
+
+.theme-toggle:hover {
+    border-color: var(--color-border-focus);
+    color: var(--color-accent);
+}
+
+.theme-toggle__icon { font-size: 18px; line-height: 1; }
+
+/* ---------- BOARD (канбан-сітка) ---------- */
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    padding: 28px 32px;
+    max-width: 1280px;
+    margin: 0 auto;
+    min-height: calc(100vh - 64px);
+}
+
+/* ---------- КОЛОНКА ---------- */
+.column {
+    background: var(--bg-column);
+    border-radius: 16px;
+    border: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    transition: background var(--transition), border-color var(--transition);
+    min-height: 500px;
+}
+
+/* Підсвітка при перетягуванні (JS додає клас .drag-over) */
+.column.drag-over {
+    border-color: var(--color-accent);
+    background: var(--bg-card-hover);
+}
+
+.column__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+}
+
+.column__title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Кольорова крапка */
+.column__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.column__dot--todo       { background: var(--dot-todo); }
+.column__dot--inprogress { background: var(--dot-progress); }
+.column__dot--done       { background: var(--dot-done); }
+
+.column__title {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    color: var(--color-text);
+}
+
+/* Лічильник */
+.column__count {
+    background: var(--bg-input);
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    padding: 1px 9px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    min-width: 24px;
+    text-align: center;
+    transition: background var(--transition);
+}
+
+/* Кнопка "+" */
+.column__add-btn {
+    background: transparent;
+    border: 1.5px dashed var(--color-border);
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color var(--transition), color var(--transition), background var(--transition);
+    flex-shrink: 0;
+}
+
+.column__add-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background: rgba(200, 169, 126, .08);
+}
+
+/* Список карток */
+.column__cards {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+/* Порожній стан (JS може показувати) */
+.column__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 40px 20px;
+    color: var(--color-text-light);
+    font-size: 13px;
+    text-align: center;
+    border: 1.5px dashed var(--color-border);
+    border-radius: 10px;
+    margin: 0 0 4px;
+}
+
+.column__empty-icon { font-size: 28px; opacity: .5; }
+
+/* ---------- КАРТКА ---------- */
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    padding: 14px 14px 12px;
+    cursor: grab;
+    transition:
+            background var(--transition),
+            border-color var(--transition),
+            box-shadow var(--transition),
+            transform var(--transition);
+    animation: cardIn .25s ease;
+}
+
+@keyframes cardIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--color-border-focus);
+    box-shadow: var(--shadow-card);
+    transform: translateY(-2px);
+}
+
+/* Картка, яку тягнуть */
+.card.dragging {
+    opacity: .45;
+    cursor: grabbing;
+    transform: rotate(1.5deg) scale(1.03);
+    box-shadow: 0 12px 32px rgba(0,0,0,.18);
+}
+
+/* Завершені картки — приглушені */
+#col-done .card {
+    opacity: .75;
+}
+
+#col-done .card .card__title {
+    text-decoration: line-through;
+    color: var(--color-text-muted);
+}
+
+.card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+/* Бейдж пріоритету */
+.card__priority-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: var(--radius-badge);
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
+.card__priority-badge[data-priority="high"] {
+    background: rgba(224, 90, 90, .12);
+    color: var(--priority-high);
+}
+
+.card__priority-badge[data-priority="medium"] {
+    background: rgba(212, 168, 67, .12);
+    color: var(--priority-medium);
+}
+
+.card__priority-badge[data-priority="low"] {
+    background: rgba(90, 171, 126, .12);
+    color: var(--priority-low);
+}
+
+/* Кнопка видалення */
+.card__delete {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-light);
+    font-size: 13px;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition), color var(--transition);
+    flex-shrink: 0;
+}
+
+.card__delete:hover {
+    background: rgba(224, 90, 90, .1);
+    color: var(--priority-high);
+}
+
+.card__title {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.4;
+    margin-bottom: 6px;
+    word-break: break-word;
+}
+
+.card__desc {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    margin-bottom: 12px;
+    word-break: break-word;
+}
+
+.card__desc:empty { display: none; }
+
+.card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+    border-top: 1px solid var(--color-border);
+}
+
+.card__deadline {
+    font-size: 12px;
+    color: var(--color-text-light);
+}
+
+/* Дедлайн прострочений */
+.card__deadline.overdue {
+    color: var(--priority-high);
+    font-weight: 600;
+}
+
+.card__actions {
+    display: flex;
+    gap: 4px;
+}
+
+.card__move {
+    background: var(--bg-input);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.card__move:hover {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+}
+
+.card__move:disabled {
+    opacity: .3;
+    cursor: not-allowed;
+}
+
+.card__move:disabled:hover {
+    background: var(--bg-input);
+    border-color: var(--color-border);
+    color: var(--color-text-muted);
+}
+
+/* ---------- МОДАЛЬНЕ ВІКНО ---------- */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg-overlay);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 20px;
+
+    /* Початково приховане — JS додає клас .is-open */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease;
+}
+
+.modal-overlay.is-open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal {
+    background: var(--bg-modal);
+    border-radius: var(--radius-modal);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-modal);
+    width: 100%;
+    max-width: 480px;
+    transform: translateY(16px) scale(.97);
+    transition: transform .2s ease;
+}
+
+.modal-overlay.is-open .modal {
+    transform: translateY(0) scale(1);
+}
+
+.modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.modal__title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.modal__close {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    font-size: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition), color var(--transition);
+}
+
+.modal__close:hover {
+    background: var(--bg-input);
+    color: var(--priority-high);
+}
+
+.modal__body {
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.modal__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 24px 20px;
+    border-top: 1px solid var(--color-border);
+}
+
+/* ---------- ФОРМА ---------- */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.form-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    letter-spacing: 0.2px;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+    background: var(--bg-input);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-input);
+    padding: 10px 12px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text);
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
+    width: 100%;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+    border-color: var(--color-border-focus);
+    box-shadow: 0 0 0 3px rgba(200, 169, 126, .15);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder { color: var(--color-text-light); }
+
+.form-textarea { resize: vertical; min-height: 80px; }
+
+/* ---------- КНОПКИ ---------- */
+.btn {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 9px 20px;
+    border-radius: var(--radius-input);
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition), border-color var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn--primary {
+    background: var(--color-accent);
+    color: #fff;
+    border-color: var(--color-accent);
+}
+
+.btn--primary:hover {
+    background: var(--color-accent-dark);
+    border-color: var(--color-accent-dark);
+}
+
+.btn--ghost {
+    background: transparent;
+    color: var(--color-text-muted);
+    border-color: var(--color-border);
+}
+
+.btn--ghost:hover {
+    background: var(--bg-input);
+    color: var(--color-text);
+}
+
+/* ---------- АДАПТИВ ---------- */
+@media (max-width: 900px) {
+    .board {
+        grid-template-columns: 1fr;
+        padding: 20px 16px;
+    }
+
+    .header {
+        padding: 0 16px;
+        flex-wrap: wrap;
+        height: auto;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        gap: 10px;
+    }
+
+    .header__controls {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .search-box__input { width: 160px; }
+
+    .form-row { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+    .search-box__input { width: 130px; }
+    .filter-select { display: none; }
+}
+

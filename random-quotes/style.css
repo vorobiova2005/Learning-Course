@@ -89,3 +89,7 @@ body {
 #remove-favorite-btn{
     margin-left: 90%;
 }
+
+.remove-btn{
+    cursor: pointer;
+}
